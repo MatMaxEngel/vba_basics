@@ -1,0 +1,503 @@
+Option Explicit
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'1. Sub-Prozeduren (Funktionen, Makros)
+'---------------------------------------------------------------------------------------------------------
+Sub HelloWorldSub()
+
+Range("A1").Value = "Hello World"
+
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'2. Function-Prozeduren (Funktionen mit Übergabe- und Rückgabewert)
+'---------------------------------------------------------------------------------------------------------
+'Funktionen mit Rückgabewert
+Function HelloWorldFunc()
+HelloWorld = "Hello World 123"
+
+End Function
+
+'Funktionen mit Übergabe- und Rückgabewert
+Function FuncUeberRueck(MyStr As String, Optional MyInt As Integer) As Integer
+Dim MyVal, MySum As Integer
+MyVal = 42
+
+MySum = MyVal * MyInt
+FuncUeberRueck = MySum
+
+End Function
+
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'3. Zellen ansprechen
+'---------------------------------------------------------------------------------------------------------
+
+Sub Zellenansprechen()
+'Eine Zelle auswählen
+Range("A2").Select
+ 
+'Wort in bestimmte Zelle schreiben
+Range("C4").Value = "Eine Zelle"
+'oder so
+'Vorteil von Cells() liegt in der Variabilität der Zahlen, welche mittels Kontrollstrukturen veränderlich genutzt werden können.
+Cells(1, 1).Value = "Eine weitere Zelle mit Cells und relativer Verortung"
+ 
+'Benachbarte Zellen ansprechen
+Range("E6:F9").Value = "Wir sitzen nebeneinander"
+ 
+'Mehrere einzelne Zellen
+Range("C10, D7, F4").Value = "Ich bin Einzeln und doch viele"
+ 
+'Gesamte Spalte ansprechen
+Range("B:B").Value = "Spalte"
+ 
+'Gesamte Zeile ansprechen
+Range("2:2").Value = "Zeile"
+ 
+'Zelleninhalt kopieren und einfügen
+Worksheets("Projekte").Range("A2").Copy Destination:=Worksheets("Projekte2").Range("A1")
+ 
+'Zelleninhalt ausschneiden und einfügen
+Worksheets("Projekte").Range("E6:F9").Cut Destination:=Worksheets("Projekte2").Range("B1")
+ 
+'Zelleninhalte löschen
+Range("A1:H13").Clear
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'4. Tabellenblätter und Arbeitsmappen ansprechen
+'---------------------------------------------------------------------------------------------------------
+
+Sub ArbeitsmappenundTabellenblaetter()
+'Ein Tabellenblatt aktivieren
+Worksheets("Projekte").Activate
+ 
+'Ein Tabellenblatt hinzufügen
+Worksheets.Add
+ 
+'Ein Tabellenblatt umbenennen
+ActiveSheet.Name = "Projektmitarbeiter"
+ 
+'Ein Tabellenblatt verschieben
+Worksheets("Projektmitarbeiter").Move Before:=Worksheets("Budget")
+ 
+'Ein Tabellenblatt kopieren
+Worksheets("Budget").Copy After:=Worksheets("Projekte")
+ 
+'Ein Tabellenblatt löschen
+Worksheets("Budget (2)").Delete
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'5. Daten aus anderen Quellen auslesen
+'---------------------------------------------------------------------------------------------------------
+
+Sub DatenAuslesen()
+Dim Data As Variant
+
+    'absoluter Pfad (hierfür den Pfad aus dem Explorer kopieren)
+    Workbooks.Open "C:\Temp\Rohdaten.xlsx"
+    Data = Workbooks("Rohdaten.xlsx").Worksheets("Tabelle1").Range("A1")
+    Workbooks("Rohdaten.xlsx").Close False
+    Worksheets("Projekte").Range("A1") = Data
+    
+    
+    'relativer Pfad
+    Workbooks.Open Filename:=ThisWorkbook.Path & "\Rohdaten.xlsx"
+    Data = Workbooks("Rohdaten.xlsx").Worksheets("01_Lookuptabellen").Range("B3:D21")
+    Workbooks("Rohdaten.xlsx").Close False
+    Worksheets("Projekte").Range("B1:D19") = Data
+    
+    
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'6. Variablen und Datentypen
+'---------------------------------------------------------------------------------------------------------
+'Öffentliche Variable, welche innerhalb des Moduls von jeder Funktion genutzt werden kann und den Wert entsprechend transportiert
+'Public ModuluebergreifendeVar As Integer
+
+
+Sub VariablenundDatentypen()
+'1. Schritt:  Deklaration - Variablenname und Datentyp festlegen
+Dim Text As String
+Dim Ganze_Zahl As Integer
+Dim Komma_Zahl As Double
+Dim Entscheidung As Boolean
+Dim Datum As Date
+Dim UnsichererDatensatz As Variant
+ 
+'2. Schritt: Der Variable einen Wert zuweisen
+Text = "Hallo !$§$%(§="
+Ganze_Zahl = 7
+Komma_Zahl = 3 / 2
+Entscheidung = True
+Datum = "14.05.2018"
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'7. Rechenoperatoren
+'---------------------------------------------------------------------------------------------------------
+Sub Rechenoperatoren()
+'Addition
+Range("A1").Value = 4 + 3
+ 
+'Subtraktion
+Range("A2").Value = 4 - 3
+ 
+'Multiplikation
+Range("A3").Value = 5 * 8
+ 
+'Punkt vor Strich beachten
+Range("A4").Value = 5 + 3 * 8
+ 
+'Klammern setzen
+Range("A5").Value = (5 + 3) * 8
+ 
+'Potenzen berechnen
+Range("A6").Value = 2 ^ 3
+ 
+'Herkömmliche Division
+Range("C1").Value = 15 / 6
+ 
+'Ganzzahldivision
+Range("C2").Value = 15 \ 6
+ 
+'Modulo
+Range("C3").Value = 15 Mod 6
+
+
+'Einfluss der Datentypen auf die Rechenoperation
+'Ganzzahl a
+Dim a As Integer
+'Kommazahl b
+Dim b As Double
+ 
+a = 15 / 6
+b = 15 / 6
+ 
+Range("A1").Value = a
+Range("A2").Value = b
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'8. Vergleichsoperatoren
+'---------------------------------------------------------------------------------------------------------
+Sub Vergleichsoperatoren()
+'Gleich
+Range("A1").Value = 30 = 25.5
+'Ungleich
+Range("A2").Value = 30 <> 25.5
+'Größer
+Range("A3").Value = 30 > 25.5
+'Kleiner
+Range("A4").Value = 30 < 25.5
+'Größer-Gleich
+Range("A5").Value = 30 >= 25.5
+'Kleiner-Gleich
+Range("A6").Value = 30 <= 25.5
+Zeichenketten vergleichen
+ 
+'Sind zwei Zeichenketten identisch?
+Range("B1").Value = "Schmidt" = "Schmidt"
+Range("B2").Value = "Schmidt" = "Schmitt"
+ 
+'Platzhalter für ein beliebiges Zeichen "?"
+Range("B3").Value = "Schmidt" = "Schmi?t"
+ 
+'Platzhalter für mehrere beliebige Zeichen "*"
+Range("B4").Value = "Schmidt" = "Sch*t"
+Range("B5").Value = "07022" = "0702*"
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'9. Verzweigungen - If-Then-Else
+'---------------------------------------------------------------------------------------------------------
+Sub IfThenElse()
+'Verzweigung mit zwei Optionen
+If Cells(2, 1).Value < 5 Then
+    Cells(2, 2).Value = "Bestanden"
+Else
+    Cells(2, 2).Value = "Nicht bestanden"
+End If
+ 
+'Verzweigung mit drei Optionen
+If Cells(3, 1).Value = 4.3 Then
+    Cells(3, 2).Value = "Mündl. Nachprüfung"
+ElseIf Cells(3, 1).Value <= 5 Then
+    Cells(3, 2).Value = "Bestanden"
+Else
+    Cells(3, 2).Value = "Nicht bestanden"
+End If
+ 
+'If Then Else - Verzweigung mit FOR- Schleife
+Dim i As Integer
+For i = 2 To 10
+    If Cells(i, 1).Value = 4.3 Then
+        Cells(i, 2).Value = "Mündl. Nachprüfung"
+        Cells(i, 2).Interior.ColorIndex = 6
+    ElseIf Cells(i, 1).Value <= 5 Then
+        Cells(i, 2).Value = "Bestanden"
+        Cells(i, 2).Interior.ColorIndex = 4
+    Else
+        Cells(i, 2).Value = "Nicht bestanden"
+        Cells(i, 2).Interior.ColorIndex = 3
+    End If
+Next i
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'10. Verzweigungen - Select-Case
+'---------------------------------------------------------------------------------------------------------
+Sub SelectCase()
+'Beispiel 1: Genaue Werte ansprechen
+Select Case Cells(2, 1).Value
+Case 5
+'Wenn: Cells(2,1).Value = 5
+    Cells(2, 2).Value = "Nicht Bestanden"
+ 
+Case 6
+'Wenn: Cells(2,1).Value = 6
+    Cells(2, 2).Value = "Nicht Bestanden"
+ 
+Case Else
+'Wenn die bisherigen Fälle nicht zutreffen:
+    Cells(2, 2).Value = "Bestanden"
+End Select
+
+'Beispiel 2: Mehrere Werte in einem Case ansprechen
+Select Case Cells(4, 1).Value
+Case 5, 6
+'Wenn: Cells(4,1).Value = 5 oder 6
+    Cells(4, 2).Value = "Nicht Bestanden"
+ 
+Case Else
+'Wenn die bisherigen Fälle nicht zutreffen:
+    Cells(4, 2).Value = "Bestanden"
+End Select
+
+'Beispiel 3: Case mit Vergleichsoperatoren (& FOR- Schleife)
+ 
+Dim i As Integer
+For i = 2 To 10
+    Select Case Cells(i, 1).Value
+    Case Is > 5
+    'Wenn: Cells(i,1).Value > 5
+       Cells(i, 2).Value = "Nicht Bestanden"
+ 
+    Case Else
+    'Wenn die bisherigen Fälle nicht zutreffen:
+        Cells(i, 2).Value = "Bestanden"
+    End Select
+Next
+
+
+'Beispiel 4: Case mit VON-BIS (& FOR- Schleife)
+ 
+'Dim i As Integer
+For i = 2 To 10
+    Select Case Cells(i, 1).Value
+    Case 1 To 4
+    'Wenn: Cells(i,1).Value = 1 bis 4
+        Cells(i, 2).Value = "Bestanden"
+ 
+    Case Else
+    ' Wenn die bisherigen Fälle nicht zutreffen:
+        Cells(i, 2).Value = "Nicht Bestanden"
+    End Select
+Next
+
+
+'Beispiel 4: Kombiniert + Zellenfarben anpassen (& FOR- Schleife)
+ 
+'Dim i As Integer
+For i = 2 To 10
+    Select Case Cells(i, 1).Value
+    Case 1 To 3
+    'Wenn: Cells(i,1).Value = 1 bis 3
+        Cells(i, 2).Value = "Bestanden"
+        Cells(i, 2).Interior.ColorIndex = 4 '(Grün)
+ 
+    Case 4
+    'Wenn: Cells(i,1).Value = 1 bis 3
+        Cells(i, 2).Value = "Mündliche Nachprüfung"
+        Cells(i, 2).Interior.ColorIndex = 6 '(Gelb)
+ 
+    Case Is > 4
+    'Wenn: Cells(i,1).Value > 4
+        Cells(i, 2).Value = "Bestanden"
+        Cells(i, 2).Interior.ColorIndex = 3 '(Rot)
+    End Select
+Next
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'11. Wiederholungen - For-Schleife
+'---------------------------------------------------------------------------------------------------------
+Sub ForSchleife()
+'Beispiel 1
+Dim n As Integer
+For n = 1 To 6
+    Cells(n, 1).Value = n
+Next n
+
+
+
+'Beispiel 2
+Dim i As Integer
+For i = 1 To 3
+    Cells(2 * i, 1).Font.Name = "Arial Black"
+Next i
+
+
+
+'Beispiel 3
+'Dim i As Integer
+For i = 2 To 6 Step 2
+    Cells(i, 1).Font.Name = "Arial Black"
+Next i
+
+
+
+
+'Beispiel 4
+'Dim i As Integer
+For i = 6 To 1 Step -1
+    Cells(i, 1).Interior.ColorIndex = i * 2
+Next i
+
+
+
+'Beispiel 5
+Dim schulfach(3) As String
+schulfach(0) = "Mathe"
+schulfach(1) = "Biologie"
+schulfach(2) = "Geschichte"
+schulfach(3) = "Erdkunde"
+ 
+Dim k As Integer
+For k = 0 To 3
+    Cells(k + 1, 1).Value = schulfach(k)
+    Cells(k + 1, 1).Font.Bold = True
+Next k
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'12. Wiederholungen - Do-Loop-While-Schleife
+'---------------------------------------------------------------------------------------------------------
+Sub DoLoopWhileSchleife()
+'Beispiel 1 (Bedingung am Ende)
+Dim x As Integer
+x = 0
+ 
+Do
+    x = x + 1
+    Cells(x, 1).Value = x
+Loop Until x > 5
+ 
+'Beispiel 2 (Bedingung am Anfang)
+'Dim x As Integer
+x = 0
+ 
+Do Until x > 5
+    x = x + 1
+    Cells(x, 1).Value = x
+Loop
+ 
+'Beispiel 3 (While Bedingung)
+'Dim x As Integer
+x = 0
+ 
+Do While x <= 5
+    x = x + 1
+    Cells(x, 1).Value = x
+Loop
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'13. Meldeboxen
+'---------------------------------------------------------------------------------------------------------
+Sub PopUpFenster()
+'Beispiel "Fehlermeldung"
+MsgBox "Datei kann nicht gefunden werden", vbAbortRetryIgnore + vbCritical, "Warnung!"
+
+'Beispiel "Information"
+MsgBox "Der Name des aktuellen Worksheets lautet: " & ActiveSheet.Name, vbOKCancel + vbInformation, "Information"
+
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'14. Inputbox
+'---------------------------------------------------------------------------------------------------------
+Sub Aufruf()
+   Dim sTxt As String
+   sTxt = InputBox("Eingabe:")
+   If sTxt = "" Then Exit Sub
+   MsgBox sTxt
+End Sub
+
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'15. Suchfunktion
+'---------------------------------------------------------------------------------------------------------
+Sub Suchfunktion()
+'Nach dem Begriff "Schmidt" suchen
+Dim finden As Range
+ 
+Set finden = Range("A2:A9").Find(what:="Schmidt")
+ 
+'Ausgeben lassen wie der gefundene Begriff heißt
+MsgBox "Der gefundene Begriff lautet: " & finden
+'Ausgeben lassen in welcher Zelle der Begriff steht
+MsgBox "Der Begriff befindet sich in Zelle: " & finden.Address
+ 
+'Die Zelle bearbeiten, in der sich der gefundene Begriff befindet
+Cells(finden.Row, finden.Column).Interior.ColorIndex = 6
+ 
+'Groß- und Kleinschreibung beachten
+Set finden = Range("A2:A9").Find(what:="Schmidt", MatchCase:=True)
+'Suchen mit Hilfe des Fragezeichen-Operators
+Set finden = Range("A2:A9").Find(what:="schmi?t")
+ 
+'Suchen mit Hilfe des Stern-Operators
+Set finden = Columns(2).Find(what:="*Weber*")
+
+End Sub
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+'XX.Weiterführende Literatur und Links
+'---------------------------------------------------------------------------------------------------------
+'VBA-Basics: https://www.vba-tutorial.de/editor/
+'Tolle Programmierbeispiele: https://www.herber.de/vbabasics/0001.html#Programmierbeispiele
+
+'---------------------------------------------------------------------------------------------------------
+'---------------------------------------------------------------------------------------------------------
+
+
